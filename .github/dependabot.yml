@@ -1,0 +1,33 @@
+# Opens pull requests to update the dependencies. The Check workflow runs on them, so an update
+# that breaks syncing is noticed before it's merged.
+version: 2
+updates:
+  - package-ecosystem: pip
+    directory: /
+    schedule:
+      interval: weekly
+    groups:
+      python:
+        patterns: ["*"]
+        update-types: [minor, patch]
+    ignore:
+      # etesync and etesync-dav use playhouse.sqlite_ext.SqliteExtDatabase, which peewee 4 removed
+      - dependency-name: peewee
+        update-types: ["version-update:semver-major"]
+      # setup.py keeps Radicale below 3.3
+      - dependency-name: radicale
+        versions: [">=3.3"]
+
+  - package-ecosystem: docker
+    directory: /
+    schedule:
+      interval: weekly
+    ignore:
+      # Python 3.10 has etebase wheels on PyPI; newer ones need it built with Rust
+      - dependency-name: python
+        versions: [">=3.11"]
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly

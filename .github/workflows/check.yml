@@ -1,0 +1,100 @@
+name: Check
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+  schedule:
+    # Also every Monday morning, to notice dependencies that broke without a change here
+    - cron: "23 5 * * 1"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: check-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install
+        run: pip install setuptools check-manifest -r requirements-dev.txt
+
+      - name: Check MANIFEST.in in a source package
+        run: check-manifest -v
+
+      - name: Lint and check the code style
+        run: |
+          ruff check .
+          ruff format --check .
+
+  test:
+    name: Sync with a server (Python ${{ matrix.python }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        # Not 3.14 yet: etebase crashes on it
+        python: ["3.10", "3.11", "3.12", "3.13"]
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Get the server
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: nikossvnk/etesync-server
+          path: server
+          persist-credentials: false
+
+      - name: Start a test server
+        run: |
+          docker build -t test-server -f server/docker/test-server/Dockerfile --build-arg ETESYNC_VERSION=ci server
+          docker run -d --name test-server -p 127.0.0.1:3735:3735 test-server
+
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: ${{ matrix.python }}
+          cache: pip
+
+      # On Python 3.11 and newer, etebase is built from source with the runner's Rust
+      - name: Install
+        run: |
+          pip install -r requirements.txt
+          pip install --no-deps .
+
+      - name: Sync events through etesync-dav
+        env:
+          ETEBASE_TEST_API_URL: http://127.0.0.1:3735/
+        run: |
+          timeout 60 sh -c 'until curl -sf -o /dev/null $ETEBASE_TEST_API_URL/api/v1/authentication/is_etebase/; do sleep 1; done'
+          python -m unittest -v tests.test_caldav
+
+  docker:
+    name: Docker image
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Build and start the image
+        run: |
+          docker build -t etesync-dav .
+          docker run --rm etesync-dav --version
