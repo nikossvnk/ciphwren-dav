@@ -3,6 +3,12 @@
   <h1 align="center">EteSync - Secure Data Sync</h1>
 </p>
 
+> [!NOTE]
+> **This is an independent fork** of [etesync-dav](https://github.com/etesync/etesync-dav), the original
+> project of the EteSync authors. This fork is not affiliated with, endorsed by or supported by EteSync or
+> Etebase in any way. The history of the original project is kept as it is, with its authors, and the
+> changes of this fork follow it. Like the original, it's licensed under the [GPL-3.0](./LICENSE) license.
+
 This is a CalDAV and CardDAV adapter for [EteSync](https://www.etesync.com)
 
 ![GitHub tag](https://img.shields.io/github/tag/etesync/etesync-dav.svg)
