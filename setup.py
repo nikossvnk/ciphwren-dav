@@ -104,7 +104,12 @@ def get_version_string():
 INSTALL_REQUIRES = [
     "appdirs>=1.4.3",
     "etesync>=0.12.1",
-    "etebase>=0.30.0",
+    # PyPI only has etebase wheels up to Python 3.10, and its source no longer builds, so newer
+    # Pythons build 0.31.9 from git (this needs a Rust compiler).
+    'etebase>=0.30.0 ; python_version<"3.11"',
+    'etebase @ git+https://github.com/nikossvnk/etebase-py@c5afd1a546b8f030d1b97bcecfc5e8bf9799827b ; python_version>="3.11"',
+    # Used directly, and by etesync; peewee 4 removed playhouse.sqlite_ext.SqliteExtDatabase.
+    "peewee>=3.14,<4",
     "msgpack>=1.0.0",
     "Radicale>=3.0.3,<3.3.0",
     "Flask>=2.3.0",
