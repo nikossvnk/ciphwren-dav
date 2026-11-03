@@ -36,8 +36,8 @@ fi
 if [ "$RUNNER_OS" = "macOS" ]; then
     ./dist/etesync-dav --version  # Sanity test on Linux and mac, can't do on windows
     cd dist
-    zip -r mac-etesync-dav.zip *
-    mv mac-etesync-dav.zip ../deploy/
+    zip -r "mac-$ARCH-etesync-dav.zip" *
+    mv "mac-$ARCH-etesync-dav.zip" ../deploy/
     cd ../
 fi
 if [ "$RUNNER_OS" = "Windows" ]; then

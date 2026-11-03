@@ -23,9 +23,9 @@ updates:
     schedule:
       interval: weekly
     ignore:
-      # Python 3.10 has etebase wheels on PyPI; newer ones need it built with Rust
+      # The Radicale version etesync-dav uses doesn't start on Python 3.14
       - dependency-name: python
-        versions: [">=3.11"]
+        versions: [">=3.14"]
 
   - package-ecosystem: github-actions
     directory: /

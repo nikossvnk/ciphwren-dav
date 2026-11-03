@@ -208,14 +208,13 @@ Set up the virtual env:
     source venv/bin/activate
     pip install etesync-dav
 
-On Python 3.11 and newer, the `etebase` dependency is built from source, so you need a Rust compiler
-(e.g. from [rustup](https://rustup.rs)) and git. Install from a checkout of this repository, since the
-etesync-dav on PyPI pins an `etebase` that no longer builds:
+The etesync-dav on PyPI doesn't have this fork's fixes for Python 3.11 and newer, so on those install
+from a checkout of this repository instead:
 
     pip install -r requirements.txt
     pip install --no-deps .
 
-Python 3.14 isn't supported yet: `etebase` crashes on it.
+Python 3.14 isn't supported yet: the Radicale version etesync-dav uses doesn't start on it.
 
 Run the etesync commands as explained in the [Configuration and running](#configuration-and-running) section:
 
