@@ -12,8 +12,6 @@
 Ciphwren DAV is a CalDAV and CardDAV adapter for Etebase (EteSync 2.0) accounts, e.g. on
 [Ciphwren Server](https://github.com/nikossvnk/ciphwren-server).
 
-![GitHub tag](https://img.shields.io/github/tag/nikossvnk/ciphwren-dav.svg)
-
 This package provides a local CalDAV and CardDAV server that acts as an EteSync compatibility layer (adapter).
 It's meant for letting desktop CalDAV and CardDAV clients such as Thunderbird, Outlook and Apple Contacts connect with EteSync.
 
