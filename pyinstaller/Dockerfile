@@ -1,16 +1,16 @@
-# Builds a standalone executable from the etesync-dav docker image.
+# Builds a standalone executable from the ciphwren-dav docker image.
 #
-# Make sure etesync/etesync-dav is up to date and then
-# docker build -t etesync-dav-bundle -f pyinstaller/Dockerfile .
-# docker run --rm -it -u $(id -u):$(id -g) -v $(pwd):/repo etesync-dav-bundle
+# Build the ciphwren-dav image first (docker build -t ciphwren-dav .), and then
+# docker build -t ciphwren-dav-bundle -f pyinstaller/Dockerfile .
+# docker run --rm -it -u $(id -u):$(id -g) -v $(pwd):/repo ciphwren-dav-bundle
 
-FROM etesync/etesync-dav
+FROM ciphwren-dav
 
 USER root
 
 RUN pip install PyInstaller
 
-USER etesync
+USER ciphwren
 
 ENTRYPOINT ["bash"]
 CMD ["-c", "cd /repo/pyinstaller && ./bundle.sh"]

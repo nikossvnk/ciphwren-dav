@@ -5,7 +5,7 @@ Session.vim
 
 /dist
 
-/pyinstaller/etesync-dav.spec
+/pyinstaller/ciphwren-dav.spec
 /pyinstaller/build
 /pyinstaller/dist
 /pyinstaller/.venv

@@ -2,7 +2,7 @@
 #    uv pip compile setup.py --universal --python-version 3.10 -o requirements.txt
 appdirs==1.4.4
     # via
-    #   etesync-dav (setup.py)
+    #   ciphwren-dav (setup.py)
     #   etesync
 asn1crypto==1.5.1
     # via etesync
@@ -23,15 +23,15 @@ cryptography==50.0.2
 defusedxml==0.7.1
     # via radicale
 etebase==0.32.0
-    # via etesync-dav (setup.py)
+    # via ciphwren-dav (setup.py)
 etesync==0.12.1
-    # via etesync-dav (setup.py)
+    # via ciphwren-dav (setup.py)
 flask==3.1.3
     # via
-    #   etesync-dav (setup.py)
+    #   ciphwren-dav (setup.py)
     #   flask-wtf
 flask-wtf==1.3.0
-    # via etesync-dav (setup.py)
+    # via ciphwren-dav (setup.py)
 furl==2.1.4
     # via etesync
 idna==3.20
@@ -52,7 +52,7 @@ markupsafe==3.0.4
     #   wtforms
 msgpack==1.2.4
     # via
-    #   etesync-dav (setup.py)
+    #   ciphwren-dav (setup.py)
     #   etebase
 orderedmultidict==1.0.2
     # via
@@ -64,7 +64,7 @@ passlib==1.7.4
     # via radicale
 peewee==3.19.0
     # via
-    #   etesync-dav (setup.py)
+    #   ciphwren-dav (setup.py)
     #   etesync
 pika==1.4.4
     # via radicale
@@ -85,13 +85,13 @@ pyobjc-core==12.2.2 ; python_full_version < '3.11' and sys_platform == 'darwin'
 pyobjc-core==13.0 ; python_full_version >= '3.11' and sys_platform == 'darwin'
     # via pyobjc-framework-cocoa
 pyobjc-framework-cocoa==12.2.2 ; python_full_version < '3.11' and sys_platform == 'darwin'
-    # via etesync-dav (setup.py)
+    # via ciphwren-dav (setup.py)
 pyobjc-framework-cocoa==13.0 ; python_full_version >= '3.11' and sys_platform == 'darwin'
-    # via etesync-dav (setup.py)
+    # via ciphwren-dav (setup.py)
 pyparsing==3.3.3
     # via etesync
 pyscrypt==1.6.2 ; sys_platform == 'darwin'
-    # via etesync-dav (setup.py)
+    # via ciphwren-dav (setup.py)
 pysocks==1.7.1
     # via requests
 python-dateutil==3.0.0 ; python_full_version < '3.11'
@@ -109,10 +109,10 @@ pytz==2026.6
     #   etesync
     #   vobject
 radicale==3.2.3
-    # via etesync-dav (setup.py)
+    # via ciphwren-dav (setup.py)
 requests==2.34.2
     # via
-    #   etesync-dav (setup.py)
+    #   ciphwren-dav (setup.py)
     #   etesync
 six==1.17.0
     # via

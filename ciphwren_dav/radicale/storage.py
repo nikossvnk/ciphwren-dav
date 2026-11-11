@@ -35,7 +35,7 @@ from .etesync_cache import etesync_for_user
 from .href_mapper import HrefMapper
 from .storage_etebase_collection import Collection as EtebaseCollection
 
-logger = logging.getLogger("etesync-dav")
+logger = logging.getLogger("ciphwren-dav")
 
 
 # How often we should sync automatically, in seconds

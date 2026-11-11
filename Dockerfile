@@ -1,7 +1,7 @@
 FROM python:3.13
 
-ENV ETESYNC_DATA_DIR "/data"
-ENV ETESYNC_SERVER_HOSTS "0.0.0.0:37358,[::]:37358"
+ENV CIPHWREN_DATA_DIR "/data"
+ENV CIPHWREN_SERVER_HOSTS "0.0.0.0:37358,[::]:37358"
 
 # Make this file a build dep for the next steps
 COPY requirements.txt /app/
@@ -11,13 +11,13 @@ COPY . /app
 RUN pip install /app
 
 RUN set -ex ;\
-        useradd etesync ;\
+        useradd ciphwren ;\
         mkdir -p /data ;\
-        chown -R etesync: /data
+        chown -R ciphwren: /data
 
 VOLUME /data
 EXPOSE 37358
 
-USER etesync
+USER ciphwren
 
-ENTRYPOINT ["etesync-dav"]
+ENTRYPOINT ["ciphwren-dav"]

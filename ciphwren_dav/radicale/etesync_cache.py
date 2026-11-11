@@ -18,7 +18,7 @@ from contextlib import contextmanager
 
 import etesync as api
 
-from etesync_dav import config
+from ciphwren_dav import config
 
 from ..local_cache import Etebase
 from .creds import Credentials

@@ -16,7 +16,7 @@ import base64
 import json
 import os
 
-from etesync_dav.config import LEGACY_ETESYNC_URL
+from ciphwren_dav.config import LEGACY_ETESYNC_URL
 
 
 class Credentials:
