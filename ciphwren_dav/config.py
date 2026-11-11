@@ -46,8 +46,8 @@ SERVER_HOSTS = env("SERVER_HOSTS", DEFAULT_HOSTS)
 LEGACY_CONFIG_DIR = env("CONFIG_DIR", user_config_dir("etesync-dav", "etesync"))
 DATA_DIR = _data_dir()
 
-DEFAULT_SERVER_URL = env("URL", "https://api.etebase.com/partner/etesync/")
-LEGACY_ETESYNC_URL = env("URL", "https://api.etesync.com/")
+# There is no built-in server: without CIPHWREN_URL, the server is given when adding an account
+DEFAULT_SERVER_URL = env("URL")
 DATABASE_FILE = env("DATABASE_FILE", os.path.join(DATA_DIR, "etesync_data.db"))
 ETEBASE_DATABASE_FILE = os.environ.get("ETEBASE_DATABASE_FILE", os.path.join(DATA_DIR, "etebase_data.db"))
 

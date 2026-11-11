@@ -8,7 +8,7 @@ import radicale
 from ciphwren_dav import radicale_main
 
 from ciphwren_dav.manage import Manager
-from ciphwren_dav.config import DATA_DIR, SERVER_HOSTS, HTPASSWD_FILE, SSL_KEY_FILE, SSL_CERT_FILE, env
+from ciphwren_dav.config import DATA_DIR, DEFAULT_SERVER_URL, SERVER_HOSTS, HTPASSWD_FILE, SSL_KEY_FILE, SSL_CERT_FILE, env
 from ciphwren_dav.mac_helpers import has_ssl
 
 logger = logging.getLogger('ciphwren-dav')
@@ -31,6 +31,9 @@ def manage(args):
     parser.add_argument("username",
                         nargs='?',
                         help="The username of the Etebase account")
+    parser.add_argument("--server-url",
+                        help="The URL of your server (default: the CIPHWREN_URL environment variable; one of the " +
+                             "two is required to add a user)")
     parser.add_argument('--legacy', default=False, action='store_true',
                         help="Use the legacy EteSync backend")
     parser.add_argument("--password",
@@ -45,6 +48,10 @@ def manage(args):
         exists = manager.validate_username(args.username)
         if exists:
             raise RuntimeError("User already exists. Delete first if you'd like to override settings.")
+        server_url = args.server_url or DEFAULT_SERVER_URL
+        if not server_url:
+            raise RuntimeError("Please give the URL of your server with --server-url or the CIPHWREN_URL "
+                               "environment variable.")
 
         if args.legacy:
             login_password = (getattr(args, 'login_password') or
@@ -52,7 +59,8 @@ def manage(args):
             encryption_password = (getattr(args, 'encryption_password') or
                                    getpass.getpass(prompt="Please enter your encryption password: "))
 
-            print_credentials(args.username, manager.add(args.username, login_password, encryption_password))
+            print_credentials(args.username, manager.add(args.username, login_password, encryption_password,
+                                                                server_url))
         else:
             if getattr(args, 'login_password') or getattr(args, 'encryption_password'):
                 raise RuntimeError("--encryption-password and --login-password are only valid in legacy mode!")
@@ -60,7 +68,7 @@ def manage(args):
             password = (getattr(args, 'password') or
                         getpass.getpass(prompt="Please enter the account password: "))
 
-            print_credentials(args.username, manager.add_etebase(args.username, password))
+            print_credentials(args.username, manager.add_etebase(args.username, password, server_url))
 
     elif args.command == 'del':
         print("Deleting user")

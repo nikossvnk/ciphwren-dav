@@ -16,8 +16,6 @@ import base64
 import json
 import os
 
-from ciphwren_dav.config import LEGACY_ETESYNC_URL
-
 
 class Credentials:
     def __init__(self, filename):
@@ -44,7 +42,12 @@ class Credentials:
             return None
 
         user = users[username]
-        return user.get("serverUrl", LEGACY_ETESYNC_URL)
+        if "serverUrl" not in user:
+            # Very old versions didn't save the server, which was always EteSync's hosted service
+            raise RuntimeError(
+                "The account {} has no saved server URL. Please delete it and add it again.".format(username)
+            )
+        return user["serverUrl"]
 
     def get(self, username):
         users = self.content["users"]

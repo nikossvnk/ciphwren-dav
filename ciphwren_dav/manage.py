@@ -24,10 +24,8 @@ import etesync as api
 from ciphwren_dav.config import (
     CREDS_FILE,
     DATA_DIR,
-    DEFAULT_SERVER_URL,
     HTPASSWD_FILE,
     LEGACY_CONFIG_DIR,
-    LEGACY_ETESYNC_URL,
 )
 
 from . import local_cache
@@ -118,7 +116,7 @@ class Manager:
 
         self.creds.save()
 
-    def add(self, username, login_password, encryption_password, remote_url=LEGACY_ETESYNC_URL):
+    def add(self, username, login_password, encryption_password, remote_url):
         exists = self.validate_username(username)
         if exists:
             raise RuntimeError("User already exists. Delete first if you'd like to override settings.")
@@ -169,7 +167,7 @@ class Manager:
 
         return self.get(username)
 
-    def add_etebase(self, username, password, remote_url=DEFAULT_SERVER_URL):
+    def add_etebase(self, username, password, remote_url):
         exists = self.validate_username(username)
         if exists:
             raise RuntimeError("User already exists. Delete first if you'd like to override settings.")
