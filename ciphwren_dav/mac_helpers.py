@@ -23,7 +23,7 @@ from cryptography.hazmat.primitives import hashes, serialization
 from cryptography.hazmat.primitives.asymmetric import rsa
 from cryptography.x509.oid import NameOID
 
-from etesync_dav.config import SSL_CERT_FILE, SSL_KEY_FILE
+from ciphwren_dav.config import SSL_CERT_FILE, SSL_KEY_FILE
 
 KEY_CIPHER = "rsa"
 KEY_SIZE = 4096

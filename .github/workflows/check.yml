@@ -58,13 +58,13 @@ jobs:
       - name: Get the server
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          repository: nikossvnk/etesync-server
+          repository: nikossvnk/ciphwren-server
           path: server
           persist-credentials: false
 
       - name: Start a test server
         run: |
-          docker build -t test-server -f server/docker/test-server/Dockerfile --build-arg ETESYNC_VERSION=ci server
+          docker build -t test-server -f server/docker/test-server/Dockerfile --build-arg CIPHWREN_VERSION=ci server
           docker run -d --name test-server -p 127.0.0.1:3735:3735 test-server
 
       - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
@@ -77,7 +77,7 @@ jobs:
           pip install -r requirements.txt
           pip install --no-deps .
 
-      - name: Sync events through etesync-dav
+      - name: Sync events through ciphwren-dav
         env:
           ETEBASE_TEST_API_URL: http://127.0.0.1:3735/
         run: |
@@ -95,5 +95,5 @@ jobs:
 
       - name: Build and start the image
         run: |
-          docker build -t etesync-dav .
-          docker run --rm etesync-dav --version
+          docker build -t ciphwren-dav .
+          docker run --rm ciphwren-dav --version

@@ -28,4 +28,4 @@ include requirements.in/*.txt
 include requirements-dev.txt
 
 # Add templates for the management UI.
-recursive-include etesync_dav/templates *
+recursive-include ciphwren_dav/templates *

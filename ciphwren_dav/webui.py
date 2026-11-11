@@ -24,10 +24,10 @@ from flask_wtf.csrf import CSRFProtect
 from wtforms import PasswordField, StringField, URLField
 from wtforms.validators import DataRequired, Optional, url
 
-from etesync_dav.config import ETESYNC_URL, LEGACY_ETESYNC_URL, LISTEN_ADDRESS
-from etesync_dav.local_cache import Etebase
-from etesync_dav.mac_helpers import generate_cert, has_ssl, needs_ssl, trust_cert
-from etesync_dav.manage import Manager
+from ciphwren_dav.config import DEFAULT_SERVER_URL, LEGACY_ETESYNC_URL, LISTEN_ADDRESS, env
+from ciphwren_dav.local_cache import Etebase
+from ciphwren_dav.mac_helpers import generate_cert, has_ssl, needs_ssl, trust_cert
+from ciphwren_dav.manage import Manager
 
 from .radicale.etesync_cache import etesync_for_user
 
@@ -35,7 +35,7 @@ manager = Manager()
 
 
 PORT = 37359
-BASE_URL = os.environ.get("ETESYNC_DAV_URL", "/")
+BASE_URL = env("DAV_URL", "/")
 
 
 def prefix_route(route_function, prefix="", mask="{0}{1}"):
@@ -54,7 +54,7 @@ def prefix_route(route_function, prefix="", mask="{0}{1}"):
 
 # Special handling from frozen apps
 if getattr(sys, "frozen", False):
-    template_folder = os.path.join(sys._MEIPASS, "etesync_dav", "templates")
+    template_folder = os.path.join(sys._MEIPASS, "ciphwren_dav", "templates")
     app = Flask(__name__, template_folder=template_folder)
 else:
     app = Flask(__name__)
@@ -68,9 +68,9 @@ CSRFProtect(app)
 
 @app.context_processor
 def inject_user():
-    import etesync_dav
+    import ciphwren_dav
 
-    return dict(version=etesync_dav.__version__)
+    return dict(version=ciphwren_dav.__version__)
 
 
 def login_user(username):
@@ -228,7 +228,7 @@ def add_user():
     if form.validate_on_submit():
         try:
             server_url = form.server_url.data
-            server_url = ETESYNC_URL if server_url == "" else server_url
+            server_url = DEFAULT_SERVER_URL if server_url == "" else server_url
             manager.add_etebase(form.username.data, form.login_password.data, server_url)
             return redirect(url_for("account_list"))
         except Exception as e:

@@ -1,6 +1,6 @@
-"""End-to-end test: etesync-dav between a CalDAV client and an Etebase server.
+"""End-to-end test: ciphwren-dav between a CalDAV client and an Etebase server.
 
-Needs a server that allows signups (e.g. the etesync-server test-server image), given in
+Needs a server that allows signups (e.g. the ciphwren-server test-server image), given in
 ETEBASE_TEST_API_URL. Run with: python -m unittest tests.test_caldav
 """
 
@@ -34,7 +34,7 @@ CALENDAR_QUERY_BODY = (
 
 def make_event(uid):
     return (
-        "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//etesync-dav tests//EN\r\n"
+        "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//ciphwren-dav tests//EN\r\n"
         f"BEGIN:VEVENT\r\nUID:{uid}\r\nDTSTAMP:20260101T120000Z\r\n"
         "DTSTART:20260102T120000Z\r\nDTEND:20260102T130000Z\r\n"
         f"SUMMARY:{uid}\r\nEND:VEVENT\r\nEND:VCALENDAR\r\n"
@@ -56,7 +56,7 @@ class TestCalDAV(unittest.TestCase):
         cls.username = "dav" + uuid.uuid4().hex[:10]
         cls.password = "pw-" + uuid.uuid4().hex
         account = Account.signup(
-            Client("etesync-dav-tests", SERVER_URL), User(cls.username, "test@example.com"), cls.password
+            Client("ciphwren-dav-tests", SERVER_URL), User(cls.username, "test@example.com"), cls.password
         )
         col_mgr = account.get_collection_manager()
         col = col_mgr.create(COL_TYPE, {"name": "Calendar"}, b"")
@@ -67,12 +67,12 @@ class TestCalDAV(unittest.TestCase):
         cls.data_dir = tempfile.TemporaryDirectory()
         cls.env = dict(
             os.environ,
-            ETESYNC_URL=SERVER_URL,
-            ETESYNC_DATA_DIR=cls.data_dir.name,
-            ETESYNC_LISTEN_PORT=DAV_PORT,
-            ETESYNC_SERVER_HOSTS=f"127.0.0.1:{DAV_PORT}",
+            CIPHWREN_URL=SERVER_URL,
+            CIPHWREN_DATA_DIR=cls.data_dir.name,
+            CIPHWREN_LISTEN_PORT=DAV_PORT,
+            CIPHWREN_SERVER_HOSTS=f"127.0.0.1:{DAV_PORT}",
         )
-        script = os.path.join(os.path.dirname(__file__), "..", "scripts", "etesync-dav")
+        script = os.path.join(os.path.dirname(__file__), "..", "scripts", "ciphwren-dav")
         out = subprocess.run(
             [sys.executable, script, "manage", "add", cls.username, "--password", cls.password],
             env=cls.env,
@@ -83,7 +83,7 @@ class TestCalDAV(unittest.TestCase):
         cls.dav_auth = (cls.username, out.split("Password:")[1].split()[0])
 
         cls.dav = subprocess.Popen([sys.executable, script], env=cls.env)
-        wait_for(lambda: cls._reachable(), "etesync-dav to start")
+        wait_for(lambda: cls._reachable(), "ciphwren-dav to start")
 
     @classmethod
     def tearDownClass(cls):
@@ -100,7 +100,7 @@ class TestCalDAV(unittest.TestCase):
             return False
 
     def _login(self):
-        return Account.login(Client("etesync-dav-tests", SERVER_URL), self.username, self.password)
+        return Account.login(Client("ciphwren-dav-tests", SERVER_URL), self.username, self.password)
 
     def _server_events(self):
         account = self._login()
@@ -113,7 +113,7 @@ class TestCalDAV(unittest.TestCase):
             account.logout()
 
     def _discover(self):
-        # Like a client looking for its calendars; this makes etesync-dav sync the collection list
+        # Like a client looking for its calendars; this makes ciphwren-dav sync the collection list
         response = requests.request(
             "PROPFIND", f"{DAV_URL}/{self.username}/", auth=self.dav_auth, headers=PROPFIND_HEADERS, data=PROPFIND_BODY
         )
@@ -155,7 +155,7 @@ class TestCalDAV(unittest.TestCase):
         )
         account.logout()
 
-        # etesync-dav syncs at most every 30 seconds when asked
+        # ciphwren-dav syncs at most every 30 seconds when asked
         wait_for(
             lambda: any(f"SUMMARY:{uid}" in event for event in self._dav_events()), "the event in the calendar", 90
         )

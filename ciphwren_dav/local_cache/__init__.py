@@ -3,7 +3,7 @@ import os
 import msgpack
 from etebase import Account, Client, CollectionAccessLevel, FetchOptions
 
-from etesync_dav import config
+from ciphwren_dav import config
 
 from . import db, models
 
@@ -41,7 +41,7 @@ def get_millis():
 class Etebase:
     def __init__(self, username, stored_session, remote_url=None):
         db_path = config.ETEBASE_DATABASE_FILE
-        client = Client("etesync-dav", remote_url)
+        client = Client("ciphwren-dav", remote_url)
         self.stored_session = stored_session
         self.etebase = Account.restore(client, stored_session, None)
         self.username = username

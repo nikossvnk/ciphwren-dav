@@ -12,10 +12,10 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-"""The top-level module for etesync-dav.
+"""The top-level module for ciphwren-dav.
 
 This module tracks the version of the package as well as the base
-package info used by various functions within etesync-dav.
+package info used by various functions within ciphwren-dav.
 
 Misc variables:
 
@@ -27,7 +27,7 @@ Misc variables:
     __url__
     __description__
 
-Refer to the `documentation <https://github.com/etesync/etesync-dav/>`_
+Refer to the `documentation <https://github.com/nikossvnk/ciphwren-dav/>`_
 for details on the use of this package.
 
 """
@@ -37,5 +37,5 @@ __version__ = "0.35.1"
 __license__ = "GPL-3.0-only"
 __author__ = "Tom Hacohen"
 __author_email__ = "tom@stosb.com"
-__url__ = "https://github.com/etesync/etesync-dav"
-__description__ = "A CalDAV and CardDAV frontend for EteSync"
+__url__ = "https://github.com/nikossvnk/ciphwren-dav"
+__description__ = "Ciphwren DAV: a CalDAV and CardDAV frontend for Etebase (EteSync 2.0) accounts"

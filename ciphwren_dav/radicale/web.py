@@ -14,12 +14,12 @@
 
 from radicale import web
 
-from etesync_dav.mac_helpers import has_ssl
+from ciphwren_dav.mac_helpers import has_ssl
 
 
 class Web(web.BaseWeb):
     def _call(self, environ, base_prefix, path, user):
-        from etesync_dav.webui import app
+        from ciphwren_dav.webui import app
 
         ret_response = []
 

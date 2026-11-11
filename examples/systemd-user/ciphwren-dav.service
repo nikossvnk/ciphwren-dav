@@ -1,0 +1,9 @@
+[Unit]
+Description=Ciphwren DAV: CalDAV and CardDAV for an Etebase account
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/ciphwren-dav
+
+[Install]
+WantedBy=default.target

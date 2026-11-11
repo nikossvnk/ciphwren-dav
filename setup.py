@@ -12,7 +12,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-"""Setup module for etesync-dav."""
+"""Setup module for ciphwren-dav."""
 
 import codecs
 import re
@@ -27,7 +27,7 @@ def read_file(filepath):
         return file_handle.read()
 
 
-PKG_NAME = "etesync-dav"
+PKG_NAME = "ciphwren-dav"
 PKG_DIR = path.abspath(path.dirname(__file__))
 META_PATH = path.join(PKG_DIR, PKG_NAME.replace("-", "_", 1), "__init__.py")
 META_CONTENTS = read_file(META_PATH)
@@ -117,7 +117,7 @@ INSTALL_REQUIRES = [
     'pyscrypt>=1.2.6 ; sys_platform=="darwin"',
 ]
 
-KEYWORDS = ["etesync", "encryption", "sync", "pim", "caldav", "carddav"]
+KEYWORDS = ["ciphwren", "etebase", "etesync", "encryption", "sync", "pim", "caldav", "carddav"]
 
 # Project's URLs
 PROJECT_URLS = {
@@ -147,6 +147,6 @@ if __name__ == "__main__":
         python_requires=">=3",
         install_requires=INSTALL_REQUIRES,
         scripts=[
-            "scripts/etesync-dav",
+            "scripts/ciphwren-dav",
         ],
     )

@@ -5,13 +5,13 @@ import sys
 import logging
 
 import radicale
-from etesync_dav import radicale_main
+from ciphwren_dav import radicale_main
 
-from etesync_dav.manage import Manager
-from etesync_dav.config import DATA_DIR, SERVER_HOSTS, HTPASSWD_FILE, SSL_KEY_FILE, SSL_CERT_FILE
-from etesync_dav.mac_helpers import has_ssl
+from ciphwren_dav.manage import Manager
+from ciphwren_dav.config import DATA_DIR, SERVER_HOSTS, HTPASSWD_FILE, SSL_KEY_FILE, SSL_CERT_FILE, env
+from ciphwren_dav.mac_helpers import has_ssl
 
-logger = logging.getLogger('etesync-dav')
+logger = logging.getLogger('ciphwren-dav')
 
 
 def manage(args):
@@ -30,11 +30,11 @@ def manage(args):
                              "or list to list all users.")
     parser.add_argument("username",
                         nargs='?',
-                        help="The username used with EteSync")
+                        help="The username of the Etebase account")
     parser.add_argument('--legacy', default=False, action='store_true',
                         help="Use the legacy EteSync backend")
     parser.add_argument("--password",
-                        help="Your EteSync account password")
+                        help="Your account password")
     parser.add_argument("--login-password",
                         help="The password to login to the EteSync server (only valid in legacy mode)")
     parser.add_argument("--encryption-password",
@@ -58,7 +58,7 @@ def manage(args):
                 raise RuntimeError("--encryption-password and --login-password are only valid in legacy mode!")
 
             password = (getattr(args, 'password') or
-                        getpass.getpass(prompt="Please enter the EteSync account password: "))
+                        getpass.getpass(prompt="Please enter the account password: "))
 
             print_credentials(args.username, manager.add_etebase(args.username, password))
 
@@ -75,7 +75,7 @@ def manage(args):
 
 
 def certgen(args):
-    from etesync_dav.mac_helpers import generate_cert, trust_cert
+    from ciphwren_dav.mac_helpers import generate_cert, trust_cert
     generate_cert()
     trust_cert()
 
@@ -91,12 +91,12 @@ if len(sys.argv) > 1 and sys.argv[1] == 'certgen':
 
 
 if len(sys.argv) > 1 and sys.argv[1] == '--version':
-    import etesync_dav
-    print("EteSync DAV version: ", etesync_dav.__version__)
+    import ciphwren_dav
+    print("Ciphwren DAV version: ", ciphwren_dav.__version__)
     print("Radicale version: ", radicale.VERSION)
     sys.exit(0)
 
-logfilename = os.getenv('ETESYNC_LOGFILE', None)
+logfilename = env('LOGFILE')
 if logfilename:
     logfile = open(logfilename, 'a', encoding='utf-8')
     sys.stdout = logfile
@@ -112,14 +112,14 @@ radicale_args = [
     '--auth-htpasswd-filename', HTPASSWD_FILE,
     '--auth-htpasswd-encryption', 'plain',
 
-    '--storage-type', 'etesync_dav.radicale.storage',
+    '--storage-type', 'ciphwren_dav.radicale.storage',
 
-    '--rights-type', 'etesync_dav.radicale.rights',
+    '--rights-type', 'ciphwren_dav.radicale.rights',
 ]
 
-if not os.getenv('ETESYNC_NO_WEBUI', None):
+if not env('NO_WEBUI'):
     radicale_args.extend([
-        '--web-type', 'etesync_dav.radicale.web'
+        '--web-type', 'ciphwren_dav.radicale.web'
     ])
 else:
     radicale_args.extend([

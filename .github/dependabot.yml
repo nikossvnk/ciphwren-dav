@@ -11,7 +11,7 @@ updates:
         patterns: ["*"]
         update-types: [minor, patch]
     ignore:
-      # etesync and etesync-dav use playhouse.sqlite_ext.SqliteExtDatabase, which peewee 4 removed
+      # etesync and ciphwren-dav use playhouse.sqlite_ext.SqliteExtDatabase, which peewee 4 removed
       - dependency-name: peewee
         update-types: ["version-update:semver-major"]
       # setup.py keeps Radicale below 3.3
@@ -23,7 +23,7 @@ updates:
     schedule:
       interval: weekly
     ignore:
-      # The Radicale version etesync-dav uses doesn't start on Python 3.14
+      # The Radicale version ciphwren-dav uses doesn't start on Python 3.14
       - dependency-name: python
         versions: [">=3.14"]
 

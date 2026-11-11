@@ -1,6 +1,6 @@
 <!doctype html>
 <head>
-  <title>EteSync DAV Management</title>
+  <title>Ciphwren DAV Management</title>
   {% block head %}
   <style>
 body{
@@ -298,7 +298,7 @@ a:hover {
   {% block body %}
   <div class="page-header">
     <div class="container d-flex flex-row">
-      <h1 class="d-inline">{% block title %}EteSync DAV Management <small>({{ version }})</small>{% endblock %}</h1>
+      <h1 class="d-inline">{% block title %}Ciphwren DAV Management <small>({{ version }})</small>{% endblock %}</h1>
       {% if session["username"] %}
       <div class="d-inline ml-auto my-auto">
         <form class="d-inline" style="padding-right: 0.5em;" method="post" action="{{ url_for('shutdown') }}">

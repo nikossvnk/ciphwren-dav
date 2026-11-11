@@ -1,6 +1,6 @@
 <p align="center">
   <img width="120" src="icon.svg" />
-  <h1 align="center">EteSync - Secure Data Sync</h1>
+  <h1 align="center">Ciphwren DAV</h1>
 </p>
 
 > [!NOTE]
@@ -9,11 +9,10 @@
 > Etebase in any way. The history of the original project is kept as it is, with its authors, and the
 > changes of this fork follow it. Like the original, it's licensed under the [GPL-3.0](./LICENSE) license.
 
-This is a CalDAV and CardDAV adapter for [EteSync](https://www.etesync.com)
+Ciphwren DAV is a CalDAV and CardDAV adapter for Etebase (EteSync 2.0) accounts, e.g. on
+[Ciphwren Server](https://github.com/nikossvnk/ciphwren-server).
 
-![GitHub tag](https://img.shields.io/github/tag/etesync/etesync-dav.svg)
-[![PyPI](https://img.shields.io/pypi/v/etesync-dav.svg)](https://pypi.python.org/pypi/etesync-dav/)
-[![Build Status](https://travis-ci.com/etesync/etesync-dav.svg?branch=master)](https://travis-ci.com/etesync/etesync-dav)
+![GitHub tag](https://img.shields.io/github/tag/nikossvnk/ciphwren-dav.svg)
 [![Chat with us](https://img.shields.io/badge/chat-IRC%20|%20Matrix%20|%20Web-blue.svg)](https://www.etebase.com/community-chat/)
 
 This package provides a local CalDAV and CardDAV server that acts as an EteSync compatibility layer (adapter).
@@ -23,7 +22,7 @@ If all you want is to access your data from a computer, you are probably better 
 
 # Installation
 
-The easiest way to start using etesync-dav is by getting one of the pre-built binaries from the [releases page](https://github.com/etesync/etesync-dav/releases).
+The easiest way to start using ciphwren-dav is by getting one of the pre-built binaries from the [releases page](https://github.com/nikossvnk/ciphwren-dav/releases).
 
 These binaries are self-contained and can be run as-is, though they do not start automatically on boot. You'd need to either start them manually, or set up [autostart based on your OS](#autostart-on-system-boot).
 
@@ -31,20 +30,22 @@ For Linux users there's a [short installation guide](https://github.com/etesync/
 
 # Configuration and running
 
-1. Run `etesync-dav` and open the management UI in your browser: http://localhost:37358/
+1. Run `ciphwren-dav` and open the management UI in your browser: http://localhost:37358/
 2. Add your EteSync user through the web UI.
 3. Copy the DAV specific password by click the "Copy Password" button next to your newly added username.
 
 For advanced usage and CLI instructions please refer to [the advanced usage section](#advanced-usage).
 
-*Please note that some antivirus/internet security software may block the CalDAV/CardDAV service from running - make sure that etesync-dav is whitelisted.*
+*Please note that some antivirus/internet security software may block the CalDAV/CardDAV service from running - make sure that ciphwren-dav is whitelisted.*
 
-Don't forget to set up EteSync to automatically start on startup. Instructions for this are unfortunately OS dependent and out of scope for this README.
+Don't forget to set up Ciphwren DAV to automatically start on startup. Instructions for this are unfortunately OS dependent and out of scope for this README.
 
 ## Common environment variables
 
-* `ETESYNC_LISTEN_ADDRESS`: a hostname or IP address to listen on. Requests to a different host/ip will be block for the admin UI. Uses as the default value for the next setting.
-* `ETESYNC_SERVER_HOSTS`: defaults to `{ETESYNC_LISTEN_ADDRESS}:37358`. Otherwise, a list of IP masks, hostnames, and ports for the server to listen on. E.g. `0.0.0.0:37358,[::]:37358` for listening on all ipv4 and ipv6 addresses and port 37358, or `localhost:37358` to only allow requests from localhost.
+(Before the rename they were named `ETESYNC_…`, which are still read when the `CIPHWREN_…` one isn't set.)
+
+* `CIPHWREN_LISTEN_ADDRESS`: a hostname or IP address to listen on. Requests to a different host/ip will be block for the admin UI. Uses as the default value for the next setting.
+* `CIPHWREN_SERVER_HOSTS`: defaults to `{CIPHWREN_LISTEN_ADDRESS}:37358`. Otherwise, a list of IP masks, hostnames, and ports for the server to listen on. E.g. `0.0.0.0:37358,[::]:37358` for listening on all ipv4 and ipv6 addresses and port 37358, or `localhost:37358` to only allow requests from localhost.
 
 # Setting up clients
 
@@ -98,7 +99,7 @@ when you click on your username.
 3. Add new DAV account (choose manual configuration).
 4. Use `http://localhost:37358/` for both servers, your EteSync username as the username and the DAV password you got in [configuration and running](#configuration-and-running) as the password.
 
-**Note:** if you enabled SSL in etesync-dav, you should follow the [TbSync instructions for self-signed certificates](https://github.com/jobisoft/TbSync/wiki/How-to-use-TbSync-with-self-signed-or-otherwise-untrusted-certificates%3F).
+**Note:** if you enabled SSL in ciphwren-dav, you should follow the [TbSync instructions for self-signed certificates](https://github.com/jobisoft/TbSync/wiki/How-to-use-TbSync-with-self-signed-or-otherwise-untrusted-certificates%3F).
 
 #### Thunderbird (no additional add-ons, for Thunderbird older than version 91)
 TbSync includes address book support (Lightning does not), automatically discovers all your calendars/address books/tasks, and just works better in general than this solution for versions of Thunderbird older than 91. However, you *can* also do the following:
@@ -142,13 +143,13 @@ It's probably easier to just follow [these instructions](https://www.howtogeek.c
 ### Linux (systemd)
 
 Make sure you have `/usr/lib/systemd/user/etesync-dav.service` on your system (should be there when installing from your distro's package manager), and then, to start the service:
-`systemctl --user start etesync-dav`
+`systemctl --user start ciphwren-dav`
 To enable auto-start on boot:
-`systemctl --user enable etesync-dav`
+`systemctl --user enable ciphwren-dav`
 
 ### macOS
 
-Make sure you installed `etesync-dav.app` by dragging it to your `Applications` directory through finder.
+Make sure you installed `ciphwren-dav.app` by dragging it to your `Applications` directory through finder.
 Enable autostart by for example following [these instructions](https://www.howtogeek.com/228467/how-to-make-a-program-run-at-startup-on-any-computer/).
 
 ### Windows
@@ -163,19 +164,20 @@ This methods are not as easy as the pre-built binaries method above, but are als
 
 Run one time initial setup to persist the required configuration into a docker volume. Check out the configuration section for more information.
 
-    docker run -it --rm -v etesync-dav:/data etesync/etesync-dav manage add USERNAME
+    docker build -t ciphwren-dav https://github.com/nikossvnk/ciphwren-dav.git
+    docker run -it --rm -v ciphwren-dav:/data ciphwren-dav manage add USERNAME
 
-Run etesync-dav in a background docker container with configuration from previous step. This will (re)start the container on boot and after crashes.
+Run ciphwren-dav in a background docker container with configuration from previous step. This will (re)start the container on boot and after crashes.
 
-    docker run --name etesync-dav -d -v etesync-dav:/data -p 37358:37358 --restart=always etesync/etesync-dav
+    docker run --name ciphwren-dav -d -v ciphwren-dav:/data -p 37358:37358 --restart=always ciphwren-dav
     
 After this, refer to the [Setting up clients](#setting-up-clients) section and start using it!
 
 ### Updating
 
-To update to the latest version of the docker image, run:
+To update it, build the image again (as above), then remove the container and run it again:
 
-    docker pull etesync/etesync-dav
+    docker build -t ciphwren-dav https://github.com/nikossvnk/ciphwren-dav.git
 
 ## Arch Linux
 
@@ -183,11 +185,11 @@ The package `etesync-dav` is [available on AUR](https://aur.archlinux.org/packag
 
 The package comes with a systemd unit. To see the status of the systemd service, run:
 
-    systemctl --user status etesync-dav
+    systemctl --user status ciphwren-dav
 
 To inspect the logs, run:
 
-    journalctl --user -xeu etesync-dav
+    journalctl --user -xeu ciphwren-dav
 
 ## Windows systems
 
@@ -214,7 +216,7 @@ from a checkout of this repository instead:
     pip install -r requirements.txt
     pip install --no-deps .
 
-Python 3.14 isn't supported yet: the Radicale version etesync-dav uses doesn't start on it.
+Python 3.14 isn't supported yet: the Radicale version ciphwren-dav uses doesn't start on it.
 
 Run the etesync commands as explained in the [Configuration and running](#configuration-and-running) section:
 
@@ -228,8 +230,8 @@ Please note that you'll have to run `source venv/bin/activate` every time you'd 
 ## CLI
 
 1. Open a terminal and navigate to the binary's location by typing `cd /path/to/file` (most likely `cd ~/Downloads`).
-2. Rename the binary to `etesync-dav` for ease of use, by e.g: `mv linux-etesync-dav etesync-dav`
-3. Make it executable: `chmod +x etesync-dav`
+2. Rename the binary to `ciphwren-dav` for ease of use, by e.g: `mv linux-ciphwren-dav ciphwren-dav`
+3. Make it executable: `chmod +x ciphwren-dav`
 
 You need to first add an EteSync user using `./etesync-dav manage`, for example:
 
@@ -246,8 +248,8 @@ and then run the server:
 ## Self-hosting
 
 If you are self-hosting the EteSync server, just enter your server URL when adding your account.
-Alternatively, you can set the default URL to be used by setting the `ETESYNC_URL` environment
-variable to the URL of your server when running etesync-dav.
+Alternatively, you can set the default URL to be used by setting the `CIPHWREN_URL` environment
+variable to the URL of your server when running ciphwren-dav.
 By default it uses the official EteSync server at `etesync.com`.
 
 ## Using a proxy
@@ -273,7 +275,7 @@ export REQUESTS_CA_BUNDLE='';
 
 ## Debugging
 
-In order to put `etesync-dav` in debug mode so it print extra debug information please pass it the `-D` flag like so:
+In order to put `ciphwren-dav` in debug mode so it print extra debug information please pass it the `-D` flag like so:
 
 ```bash
 ./etesync-dav -D
@@ -284,21 +286,24 @@ it can't print to the terminal. In order to get the debug information on Windows
 file, like so:
 
 ```bash
-set ETESYNC_LOGFILE=output.log
-etesync-dav.exe -D
+set CIPHWREN_LOGFILE=output.log
+ciphwren-dav.exe -D
 ```
 
 ## Data files
 
-`etesync-dav` stores data in the directory specified by the `ETESYNC_DATA_DIR`
+`ciphwren-dav` stores data in the directory specified by the `CIPHWREN_DATA_DIR`
 environment variable. This includes a database and the credentials cache.
 
-`ETESYNC_DATA_DIR` defaults to a subdirectory of the appropriate data directory
+`CIPHWREN_DATA_DIR` defaults to a subdirectory of the appropriate data directory
 for your platform. For example:
 1. `~/.local/share/etesync-dav` on Linux.
 2. `~/Library/Application Support/etesync-dav` on macOS
-3. `C:\Documents and Settings\<User>\Application Data\Local Settings\etesync\etesync-dav` on older Windows
-4. `C:\Users\<User>\AppData\Local\etesync\etesync-dav` on Windows 7 and up (Most likely)
+3. `C:\Documents and Settings\<User>\Application Data\Local Settings\ciphwren\ciphwren-dav` on older Windows
+4. `C:\Users\<User>\AppData\Local\ciphwren\ciphwren-dav` on Windows 7 and up (Most likely)
+
+The data of a version from before the rename (in the same places, named `etesync-dav`, and under
+`etesync` on Windows) is moved to the new one the first time it starts.
 
 See the [appdirs](https://pypi.python.org/pypi/appdirs) module docs for mor examples.
 

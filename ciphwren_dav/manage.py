@@ -21,7 +21,14 @@ import time
 import etebase as Etebase
 import etesync as api
 
-from etesync_dav.config import CREDS_FILE, DATA_DIR, ETESYNC_URL, HTPASSWD_FILE, LEGACY_CONFIG_DIR, LEGACY_ETESYNC_URL
+from ciphwren_dav.config import (
+    CREDS_FILE,
+    DATA_DIR,
+    DEFAULT_SERVER_URL,
+    HTPASSWD_FILE,
+    LEGACY_CONFIG_DIR,
+    LEGACY_ETESYNC_URL,
+)
 
 from . import local_cache
 from .radicale.creds import Credentials
@@ -91,7 +98,7 @@ class Manager:
 
     def check_login(self, username, password) -> None:
         server_url = self.creds.get_server_url(username)
-        client = Etebase.Client("etesync-dav", server_url)
+        client = Etebase.Client("ciphwren-dav", server_url)
         etebase = Etebase.Account.login(client, username, password)
         etebase.logout()
 
@@ -105,7 +112,7 @@ class Manager:
         else:
             _, cipher_key = self.creds.get(username)
             if cipher_key is None:
-                raise RuntimeError("User not found in etesync-dav")
+                raise RuntimeError("User not found in ciphwren-dav")
             auth_token = api.Authenticator(server_url).get_auth_token(username, login_password)
             self.creds.set(username, auth_token, cipher_key, server_url)
 
@@ -162,13 +169,13 @@ class Manager:
 
         return self.get(username)
 
-    def add_etebase(self, username, password, remote_url=ETESYNC_URL):
+    def add_etebase(self, username, password, remote_url=DEFAULT_SERVER_URL):
         exists = self.validate_username(username)
         if exists:
             raise RuntimeError("User already exists. Delete first if you'd like to override settings.")
 
         print("Logging in")
-        client = Etebase.Client("etesync-dav", remote_url)
+        client = Etebase.Client("ciphwren-dav", remote_url)
         etebase = Etebase.Account.login(client, username, password)
 
         print("Saving config")

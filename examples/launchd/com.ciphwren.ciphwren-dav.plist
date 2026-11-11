@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
     <key>Label</key>
-    <string>com.etesync.etesync-dav</string>
+    <string>com.ciphwren.ciphwren-dav</string>
     <key>Program</key>
-    <string>/usr/local/bin/etesync-dav</string>
+    <string>/usr/local/bin/ciphwren-dav</string>
     <key>RunAtLoad</key>
     <true/>
     <key>WorkingDirectory</key>
