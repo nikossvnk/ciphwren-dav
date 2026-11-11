@@ -1,6 +1,11 @@
 # Changelog
 
 ## Unreleased
+* Remove the default server (EteSync's hosted service): give the server with `manage add --server-url`, in the
+  web UI's "Server URL" field, or with `CIPHWREN_URL`. Accounts saved by very old versions without a server URL
+  have to be added again.
+
+## Unreleased
 * Renamed to Ciphwren DAV: the command is `ciphwren-dav`, the Python package `ciphwren_dav`, and the environment variables `CIPHWREN_…` (the `ETESYNC_…` ones are still read). The data of an earlier version is moved from `etesync-dav` to `ciphwren-dav` the first time it starts.
 
 ## Version 0.35.1

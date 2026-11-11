@@ -4,6 +4,7 @@ Needs a server that allows signups (e.g. the ciphwren-server test-server image),
 ETEBASE_TEST_API_URL. Run with: python -m unittest tests.test_caldav
 """
 
+import json
 import os
 import re
 import subprocess
@@ -98,6 +99,27 @@ class TestCalDAV(unittest.TestCase):
             return True
         except requests.ConnectionError:
             return False
+
+    def _manage(self, data_dir, *args, extra_env=None):
+        env = {k: v for k, v in os.environ.items() if k not in ("CIPHWREN_URL", "ETESYNC_URL")}
+        env.update(CIPHWREN_DATA_DIR=data_dir, **(extra_env or {}))
+        script = os.path.join(os.path.dirname(__file__), "..", "scripts", "ciphwren-dav")
+        return subprocess.run([sys.executable, script, "manage", *args], env=env, capture_output=True, text=True)
+
+    def test_add_needs_a_server_url(self):
+        with tempfile.TemporaryDirectory() as data_dir:
+            proc = self._manage(data_dir, "add", self.username, "--password", self.password)
+            self.assertNotEqual(proc.returncode, 0)
+            self.assertIn("--server-url or the CIPHWREN_URL", proc.stdout + proc.stderr)
+            self.assertEqual(self._manage(data_dir, "list").stdout.split(), [])
+
+    def test_add_with_server_url_option(self):
+        with tempfile.TemporaryDirectory() as data_dir:
+            proc = self._manage(data_dir, "add", self.username, "--password", self.password, "--server-url", SERVER_URL)
+            self.assertEqual(proc.returncode, 0, proc.stdout + proc.stderr)
+            self.assertEqual(self._manage(data_dir, "list").stdout.split(), [self.username])
+            with open(os.path.join(data_dir, "etesync_creds")) as f:
+                self.assertEqual(json.load(f)["users"][self.username]["serverUrl"], SERVER_URL)
 
     def _login(self):
         return Account.login(Client("ciphwren-dav-tests", SERVER_URL), self.username, self.password)

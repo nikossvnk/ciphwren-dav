@@ -13,12 +13,11 @@ Ciphwren DAV is a CalDAV and CardDAV adapter for Etebase (EteSync 2.0) accounts,
 [Ciphwren Server](https://github.com/nikossvnk/ciphwren-server).
 
 ![GitHub tag](https://img.shields.io/github/tag/nikossvnk/ciphwren-dav.svg)
-[![Chat with us](https://img.shields.io/badge/chat-IRC%20|%20Matrix%20|%20Web-blue.svg)](https://www.etebase.com/community-chat/)
 
 This package provides a local CalDAV and CardDAV server that acts as an EteSync compatibility layer (adapter).
 It's meant for letting desktop CalDAV and CardDAV clients such as Thunderbird, Outlook and Apple Contacts connect with EteSync.
 
-If all you want is to access your data from a computer, you are probably better off using [the web app](https://pim.etesync.com).
+If all you want is to access your data from a computer, you are probably better off using the Ciphwren Web app.
 
 # Installation
 
@@ -233,24 +232,23 @@ Please note that you'll have to run `source venv/bin/activate` every time you'd 
 2. Rename the binary to `ciphwren-dav` for ease of use, by e.g: `mv linux-ciphwren-dav ciphwren-dav`
 3. Make it executable: `chmod +x ciphwren-dav`
 
-You need to first add an EteSync user using `./etesync-dav manage`, for example:
+You need to first add a user using `./ciphwren-dav manage`, for example:
 
-`./etesync-dav manage add USERNAME`
+`./ciphwren-dav manage add --server-url https://etebase.example.com/ USERNAME`
 
-*Substitute `USERNAME` with the username you use with your
-EteSync account or self-hosted server.*
+*Substitute `USERNAME` with your account's username, and the URL with the URL of your server.*
 
 and then run the server:
-`./etesync-dav`
+`./ciphwren-dav`
 
 **Note:** if you are using this with the legacy etesync server you should also pass `--legacy`
 
 ## Self-hosting
 
-If you are self-hosting the EteSync server, just enter your server URL when adding your account.
-Alternatively, you can set the default URL to be used by setting the `CIPHWREN_URL` environment
-variable to the URL of your server when running ciphwren-dav.
-By default it uses the official EteSync server at `etesync.com`.
+There is no default server: enter your server's URL when adding your account (`--server-url`, or
+the "Server URL" field of the web UI). Alternatively, you can set the default URL to be used by
+setting the `CIPHWREN_URL` environment variable to the URL of your server when running
+ciphwren-dav. (`ETESYNC_URL`, its name before the rename, still works.)
 
 ## Using a proxy
 

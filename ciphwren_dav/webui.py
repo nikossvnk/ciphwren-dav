@@ -24,7 +24,7 @@ from flask_wtf.csrf import CSRFProtect
 from wtforms import PasswordField, StringField, URLField
 from wtforms.validators import DataRequired, Optional, url
 
-from ciphwren_dav.config import DEFAULT_SERVER_URL, LEGACY_ETESYNC_URL, LISTEN_ADDRESS, env
+from ciphwren_dav.config import DEFAULT_SERVER_URL, LISTEN_ADDRESS, env
 from ciphwren_dav.local_cache import Etebase
 from ciphwren_dav.mac_helpers import generate_cert, has_ssl, needs_ssl, trust_cert
 from ciphwren_dav.manage import Manager
@@ -227,8 +227,7 @@ def add_user():
     form = AddUserForm(request.form)
     if form.validate_on_submit():
         try:
-            server_url = form.server_url.data
-            server_url = DEFAULT_SERVER_URL if server_url == "" else server_url
+            server_url = form.server_url.data or DEFAULT_SERVER_URL
             manager.add_etebase(form.username.data, form.login_password.data, server_url)
             return redirect(url_for("account_list"))
         except Exception as e:
@@ -245,8 +244,7 @@ def add_user_legacy():
     form = AddUserLegacyForm(request.form)
     if form.validate_on_submit():
         try:
-            server_url = form.server_url.data
-            server_url = LEGACY_ETESYNC_URL if server_url == "" else server_url
+            server_url = form.server_url.data or DEFAULT_SERVER_URL
             manager.add(form.username.data, form.login_password.data, form.encryption_password.data, server_url)
             return redirect(url_for("account_list"))
         except api.exceptions.IntegrityException:
@@ -274,7 +272,11 @@ class UsernameForm(FlaskForm):
 
 
 class LoginForm(UsernameForm):
-    server_url = URLField("Server URL (Leave Empty for Default)", validators=[Optional(), url(require_tld=False)])
+    # Required, unless CIPHWREN_URL gives a default
+    server_url = URLField(
+        "Server URL (Leave Empty for {})".format(DEFAULT_SERVER_URL) if DEFAULT_SERVER_URL else "Server URL",
+        validators=[Optional() if DEFAULT_SERVER_URL else DataRequired(), url(require_tld=False)],
+    )
     login_password = PasswordField("Account Password", validators=[DataRequired()])
 
 
