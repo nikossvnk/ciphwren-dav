@@ -19,7 +19,7 @@ from .etesync_cache import etesync_for_user
 
 
 class Rights(rights.BaseRights):
-    def authorization(self, user, path):
+    def authorization(self, user, user_groups, path):
         if not user:
             return ""
 

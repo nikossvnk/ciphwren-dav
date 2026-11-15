@@ -7,6 +7,9 @@
 * Use our etebase-py fork, `ciphwren-etebase` 0.33.0 (still imported as `etebase`), instead of EteSync's
   `etebase`: it fixes content with duplicate chunks. It isn't on PyPI: `requirements.txt` takes its wheels from
   its GitHub release. Uninstall `etebase` from an existing virtualenv first, as both provide the `etebase` module.
+* Use Radicale 3.9 (from 3.2), which makes ciphwren-dav work on Python 3.14: Radicale 3.2 doesn't start on it.
+  Radicale now uses libpass instead of passlib; both install the `passlib` module, so in an existing virtualenv
+  don't uninstall `passlib` after installing (or reinstall `libpass` if you did).
 * Renamed to Ciphwren DAV: the command is `ciphwren-dav`, the Python package `ciphwren_dav`, and the environment variables `CIPHWREN_…` (the `ETESYNC_…` ones are still read). The data of an earlier version is moved from `etesync-dav` to `ciphwren-dav` the first time it starts.
 
 ## Version 0.35.1
