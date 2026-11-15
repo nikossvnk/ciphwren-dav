@@ -104,8 +104,9 @@ def get_version_string():
 INSTALL_REQUIRES = [
     "appdirs>=1.4.3",
     "etesync>=0.12.1",
-    # 0.32 is the first with wheels for Python 3.11 and newer (and that doesn't crash on 3.14).
-    "etebase>=0.32.0",
+    # Our etebase-py fork (imported as etebase). It isn't on PyPI: requirements.txt finds its wheels on
+    # the GitHub release (--find-links). 0.33 has no default server and the duplicate-chunk fix.
+    "ciphwren-etebase>=0.33.0",
     # Used directly, and by etesync; peewee 4 removed playhouse.sqlite_ext.SqliteExtDatabase.
     "peewee>=3.14,<4",
     "msgpack>=1.0.0",
