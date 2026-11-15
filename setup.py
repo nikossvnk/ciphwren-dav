@@ -110,7 +110,8 @@ INSTALL_REQUIRES = [
     # Used directly, and by etesync; peewee 4 removed playhouse.sqlite_ext.SqliteExtDatabase.
     "peewee>=3.14,<4",
     "msgpack>=1.0.0",
-    "Radicale>=3.0.3,<3.3.0",
+    # The plugin API of 3.9 (user_groups, upload returning the replaced item); 3.2 doesn't run on Python 3.14.
+    "Radicale>=3.9.1,<4",
     "Flask>=2.3.0",
     "Flask-WTF>=1.2.0,<2.0.0",
     "requests[socks]>=2.21",

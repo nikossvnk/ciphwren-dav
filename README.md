@@ -213,8 +213,6 @@ from a checkout of this repository instead:
     pip install -r requirements.txt
     pip install --no-deps .
 
-Python 3.14 isn't supported yet: the Radicale version ciphwren-dav uses doesn't start on it.
-
 Run the etesync commands as explained in the [Configuration and running](#configuration-and-running) section:
 
     ./venv/bin/etesync-dav manage ...

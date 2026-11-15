@@ -279,9 +279,9 @@ class Collection(BaseCollection):
         )
 
     def upload(self, href, vobject_item):
-        """Upload a new or replace an existing item."""
+        """Upload a new or replace an existing item. Returns it, and the old item if it was replaced."""
         if self.is_fake:
-            return
+            return None, None
 
         item = self._get(href)
         if item is not None:
@@ -294,7 +294,7 @@ class Collection(BaseCollection):
             href_mapper = HrefMapper(content=etesync_item.cache_item, href=href)
             href_mapper.save(force_insert=True)
 
-        return self._get(href)
+        return self._get(href), item
 
     def delete(self, href=None):
         """Delete an item.

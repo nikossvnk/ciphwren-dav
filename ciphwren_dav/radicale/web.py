@@ -31,10 +31,12 @@ class Web(web.BaseWeb):
             environ["wsgi.url_scheme"] = "https"
         body = list(app(environ, start_response))[0]
         ret_response.append(body)
+        # (status, headers, body, and the XML request, which only DAV methods have)
+        ret_response.append(None)
         return tuple(ret_response)
 
-    def get(self, environ, base_prefix, path, user):
+    def get(self, environ, base_prefix, path, user, user_groups, request_info):
         return self._call(environ, base_prefix, path, user)
 
-    def post(self, environ, base_prefix, path, user):
+    def post(self, environ, base_prefix, path, user, user_groups, request_info):
         return self._call(environ, base_prefix, path, user)
