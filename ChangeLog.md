@@ -4,8 +4,9 @@
 * Remove the default server (EteSync's hosted service): give the server with `manage add --server-url`, in the
   web UI's "Server URL" field, or with `CIPHWREN_URL`. Accounts saved by very old versions without a server URL
   have to be added again.
-
-## Unreleased
+* Use our etebase-py fork, `ciphwren-etebase` 0.33.0 (still imported as `etebase`), instead of EteSync's
+  `etebase`: it fixes content with duplicate chunks. It isn't on PyPI: `requirements.txt` takes its wheels from
+  its GitHub release. Uninstall `etebase` from an existing virtualenv first, as both provide the `etebase` module.
 * Renamed to Ciphwren DAV: the command is `ciphwren-dav`, the Python package `ciphwren_dav`, and the environment variables `CIPHWREN_…` (the `ETESYNC_…` ones are still read). The data of an earlier version is moved from `etesync-dav` to `ciphwren-dav` the first time it starts.
 
 ## Version 0.35.1
